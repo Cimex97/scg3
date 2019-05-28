@@ -56,6 +56,11 @@ Light* Light::setPosition(const glm::vec4& position) {
   return this;
 }
 
+glm::vec4 Light::getPosition()
+{
+    return position_;
+}
+
 
 Light* Light::setAmbient(const glm::vec4& color) {
   ambient_ = color;

@@ -145,6 +145,7 @@ public:
    * Render light after traversing sub-tree, i.e., remove light from render state.
    */
   virtual void renderPost(RenderState* renderState);
+  virtual glm::vec4 getPosition();
 
 public:
 
