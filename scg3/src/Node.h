@@ -114,6 +114,9 @@ public:
    */
   virtual void render(RenderState* renderState);
 
+  virtual CoreSP getShaderCore();
+  virtual void setShaderCore(CoreSP);
+
 protected:
 
   /**

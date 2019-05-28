@@ -22,9 +22,11 @@
  */
 
 #include <cassert>
+#include <iostream>
 #include "Composite.h"
 #include "Core.h"
 #include "Node.h"
+#include "ShaderCore.h"
 
 namespace scg {
 
@@ -62,6 +64,40 @@ void Node::destroy() {
 
 int Node::getNCores() const {
   return cores_.size();
+}
+
+CoreSP Node::getShaderCore()
+{
+    scg::CoreSP retVal = nullptr;
+    int index = 0;
+    for(auto core: cores_)
+    {
+        if (scg::ShaderCore* c = dynamic_cast<scg::ShaderCore*>(core.get())) {
+            retVal = core;
+            break;
+        }
+        index++;
+    }
+    return retVal;
+}
+void Node::setShaderCore(scg::CoreSP new_shader)
+{
+    scg::CoreSP setVal = nullptr;
+    int index = 0;
+    for(auto core: cores_)
+    {
+        if (scg::ShaderCore* c = dynamic_cast<scg::ShaderCore*>(core.get())) {
+            setVal = core;
+            break;
+        }
+        index++;
+    }
+    if(setVal != nullptr) {
+        cores_.erase(cores_.begin()+index);
+    }
+    if(new_shader != nullptr) {
+        cores_.insert(cores_.begin(),new_shader);
+    }
 }
 
 
