@@ -42,26 +42,26 @@ uniform vec4 globalAmbientLight;
 // --- declarations ---
 
 
-void directionalLight(const in int idx, const in vec3 v, const in vec3 n, 
+void directionalLight(const in int idx, const in vec3 v, const in vec3 n,
     inout vec4 ambient, inout vec4 diffuse, inout vec4 specular);
 
-void pointLight(const in int idx, const in vec3 ecVertex, const in vec3 v, const in vec3 n, 
+void pointLight(const in int idx, const in vec3 ecVertex, const in vec3 v, const in vec3 n,
     inout vec4 ambient, inout vec4 diffuse, inout vec4 specular);
 
-void spotLight(const in int idx, const in vec3 ecVertex, const in vec3 v, const in vec3 n, 
+void spotLight(const in int idx, const in vec3 ecVertex, const in vec3 v, const in vec3 n,
     inout vec4 ambient, inout vec4 diffuse, inout vec4 specular);
 
 
 // --- implementations ---
 
-  
-void applyLighting(const in vec3 ecVertex, const in vec3 ecNormal, 
-    out vec4 emissionAmbientDiffuse, out vec4 specular) {
-  
+
+void applyLighting(const in vec3 ecVertex, const in vec3 ecNormal,
+    out vec4 emissionAmbientDiffuse, out vec4 specular, in float visibility) {
+
   // normalized view direction and surface normal
   vec3 v = normalize(-ecVertex);
   vec3 n = normalize(ecNormal);
-  
+
   // add contributions of light sources
   vec4 ambient = vec4(0., 0., 0., 0.);
   vec4 diffuse = vec4(0., 0., 0., 0.);
