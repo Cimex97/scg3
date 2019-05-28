@@ -195,6 +195,19 @@ public:
     return tempMatrix_ = glm::inverse(viewTransform_) * modelViewStack.getMatrix();
   }
 
+  void setLightProjection(const glm::mat4& projection) {
+      lightProjection = projection;
+  }
+  void setLightView(const glm::mat4& projection) {
+      lightView = projection;
+  }
+  const glm::mat4 getLightView() {
+      return lightView;
+  }
+  const glm::mat4 getLightProjection() {
+      return lightProjection;
+  }
+
 
   /**
    * Enable or disable lighting (light sources and global ambient light).
@@ -251,6 +264,8 @@ protected:
   ShaderCore* shaderCore_;
   glm::mat4 projection_;
   glm::mat4 viewTransform_;
+  glm::mat4 lightProjection;
+  glm::mat4 lightView;
   mutable glm::mat4 tempMatrix_;
   bool isLightingEnabled_;
   GLint nLights_;
