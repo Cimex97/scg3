@@ -137,6 +137,24 @@ void RenderState::passToShader() {
       glm::value_ptr(textureStack.getMatrix()));
   shaderCore_->setUniformMatrix4fv(OGLConstants::COLOR_MATRIX, 1,
       glm::value_ptr(colorStack.getMatrix()));
+
+glm::mat4 biasMatrix(
+    0.5, 0.0, 0.0, 0.0,
+    0.0, 0.5, 0.0, 0.0,
+    0.0, 0.0, 0.5, 0.0,
+    0.5, 0.5, 0.5, 1.0
+    );
+  glm::mat4 lightView = getLightView();
+  glm::mat4 ligthProjection = getLightProjection();
+
+  glm::mat4 cameraView = getViewTransform();
+  glm::mat4 cameraProjection = getProjection();
+
+  glm::mat4 depthMVP = biasMatrix * lightProjection * lightView * getModelMatrix();
+//  glm::mat4 depthMVP = biasMatrix * getLightProjection() * glm::inverse(getProjection()) * getMVPMatrix();
+
+  shaderCore_->setUniformMatrix4fv("BiasDepthMVP",1, glm::value_ptr(depthMVP));
+
   if (isLightingEnabled_) {
     shaderCore_->setUniform1i(OGLConstants::N_LIGHTS, nLights_);
     shaderCore_->setUniform4fv(OGLConstants::GLOBAL_AMBIENT_LIGHT, 1, glm::value_ptr(globalAmbientLight_));
