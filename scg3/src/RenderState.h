@@ -207,6 +207,10 @@ public:
   const glm::mat4 getLightProjection() {
       return lightProjection;
   }
+  void setShadowMap(const GLint id) {
+      shadowMapTextureID = id;
+  }
+
 
 
   /**
@@ -270,6 +274,7 @@ protected:
   bool isLightingEnabled_;
   GLint nLights_;
   GLuint lightUBO_;
+  GLint shadowMapTextureID;
   glm::vec4 globalAmbientLight_;
 
 };

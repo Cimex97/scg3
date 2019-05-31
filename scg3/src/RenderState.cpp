@@ -154,6 +154,7 @@ glm::mat4 biasMatrix(
 //  glm::mat4 depthMVP = biasMatrix * getLightProjection() * glm::inverse(getProjection()) * getMVPMatrix();
 
   shaderCore_->setUniformMatrix4fv("BiasDepthMVP",1, glm::value_ptr(depthMVP));
+  shaderCore_->setUniform1i("ShadowMap",4);
 
   if (isLightingEnabled_) {
     shaderCore_->setUniform1i(OGLConstants::N_LIGHTS, nLights_);
