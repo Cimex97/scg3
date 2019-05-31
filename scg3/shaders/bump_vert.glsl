@@ -34,11 +34,13 @@ uniform mat4 projectionMatrix;
 uniform mat4 mvpMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 textureMatrix;
+uniform mat4 BiasDepthMVP;
 
 smooth out vec3 ecVertex;
 smooth out vec4 texCoord0;
 smooth out vec3 tcView;
 smooth out vec3 tcSource[MAX_NUMBER_OF_LIGHTS];
+smooth out vec4 ShadowCoord;
 
 void main() {
   
@@ -71,8 +73,9 @@ void main() {
       tcSource[i] = ec2tcTrans * (lights[i].position.xyz - ecVertex);
     }
   }
-  
+
   // set output values
   gl_Position = mvpMatrix * vVertex;
   texCoord0 = textureMatrix * vTexCoord0;
+  ShadowCoord = BiasDepthMVP * vVertex;
 }

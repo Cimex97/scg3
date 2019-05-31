@@ -81,10 +81,10 @@ void applyLighting(const in vec3 ecVertex, const in vec3 ecNormal,
   }
   
   // multiply with material parameters, add emission and global ambient light
-  emissionAmbientDiffuse = material.emission 
-      + material.ambient * (globalAmbientLight + ambient) 
-      + material.diffuse * diffuse;
-  specular *= material.specular;  
+  emissionAmbientDiffuse = material.emission
+      + visibility* material.ambient * (globalAmbientLight + ambient)
+      + visibility* material.diffuse * diffuse;
+  specular *= material.specular;
 }
 
 

@@ -14,7 +14,7 @@ smooth in vec4 ShadowCoord;
 uniform mat4 colorMatrix;
 uniform mat4 depthMVP;
 uniform sampler2D texture0;
-uniform sampler2D texture9;
+uniform sampler2D ShadowMap;
 
 out vec4 fragColor;
 
@@ -34,16 +34,17 @@ vec4 applyTexture(const in vec4 texCoord, const in vec4 emissionAmbientDiffuse,
 
 void main(void) {
 
-float visibility = 1.0;
-if ( texture( texture0, ShadowCoord.xy ).z  <  ShadowCoord.z){
-        visibility = 0.5;
-}
+    float bias = 0.005;
+    float visibility = 1.0;
+    if ( texture( ShadowMap, ShadowCoord.st ).x  <  ShadowCoord.z -bias){
+            visibility = 0.5;
+    }
   // apply lighting model (to be defined in separate shader)
   vec4 emissionAmbientDiffuse, specular;
   applyLighting(ecVertex, ecNormal, emissionAmbientDiffuse, specular, visibility);
 
   // apply texture and determine color (to be defined in separate shader)
-  vec4 color = applyTexture(ShadowCoord, emissionAmbientDiffuse, specular);
+  vec4 color = applyTexture(texCoord0, emissionAmbientDiffuse, specular);
 
   // transform color by color matrix
   vec4 transformedColor = colorMatrix * vec4(color.rgb, 1.);

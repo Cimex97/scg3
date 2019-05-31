@@ -11,6 +11,7 @@ smooth in vec3 ecVertex;
 smooth in vec4 texCoord0;
 smooth in vec3 tcView;
 smooth in vec3 tcSource[MAX_NUMBER_OF_LIGHTS];
+smooth in vec4 ShadowCoord;
 
 struct Light {
   vec4 position;
@@ -43,6 +44,7 @@ uniform int nLights;
 uniform vec4 globalAmbientLight;
 uniform mat4 colorMatrix;
 uniform sampler2D texture1;   // normal map
+uniform sampler2D ShadowMap;
 
 out vec4 fragColor;
 
@@ -50,7 +52,7 @@ out vec4 fragColor;
 // --- declarations ---
 
 
-void applyLighting(out vec4 emissionAmbientDiffuse, out vec4 specular);
+void applyLighting(out vec4 emissionAmbientDiffuse, out vec4 specular, in float visibility);
 
 void pointOrDirectionalLight(const in int idx, const in vec3 v, const in vec3 n, 
     inout vec4 ambient, inout vec4 diffuse, inout vec4 specular);
@@ -65,11 +67,17 @@ vec4 applyTexture(const in vec4 texCoord, const in vec4 emissionAmbientDiffuse, 
 
 
 void main(void) {
-  
+
+
+    float bias = 0.005;
+    float visibility = 1.0;
+    if ( texture( ShadowMap, ShadowCoord.st ).x  <  ShadowCoord.z -bias){
+            visibility = 0.5;
+    }
   // apply lighting model
   vec4 emissionAmbientDiffuse, specular;
-  applyLighting(emissionAmbientDiffuse, specular);
-  
+  applyLighting(emissionAmbientDiffuse, specular, visibility);
+
   // apply texture and determine color (to be defined in separate shader)
   vec4 color = applyTexture(texCoord0, emissionAmbientDiffuse, specular);
 
@@ -82,8 +90,8 @@ void main(void) {
 }
 
 
-void applyLighting(out vec4 emissionAmbientDiffuse, out vec4 specular) {
-  
+void applyLighting(out vec4 emissionAmbientDiffuse, out vec4 specular, in float visibility) {
+
   // normalized view direction
   vec3 v = normalize(tcView);
    
@@ -104,10 +112,10 @@ void applyLighting(out vec4 emissionAmbientDiffuse, out vec4 specular) {
   }
   
   // multiply with material parameters, add emission and global ambient light
-  emissionAmbientDiffuse = material.emission 
-      + material.ambient * (globalAmbientLight + ambient) 
-      + material.diffuse * diffuse;
-  specular *= material.specular;  
+  emissionAmbientDiffuse = material.emission
+      + visibility * material.ambient * (globalAmbientLight + ambient)
+      + visibility * material.diffuse * diffuse;
+  specular *= material.specular;
 }
 
 
