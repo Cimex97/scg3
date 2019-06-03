@@ -207,7 +207,7 @@ public:
   const glm::mat4 getLightProjection() {
       return lightProjection;
   }
-  void setShadowMap(const GLint id) {
+  void setShadowMapTextureUnit(const GLint id) {
       shadowMapTextureID = id;
   }
 
