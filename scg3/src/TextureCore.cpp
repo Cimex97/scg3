@@ -29,7 +29,7 @@ namespace scg {
 
 
 TextureCore::TextureCore()
-    : tex_(0), texOld_(0), matrix_(1.0f) {
+    : tex_(0), tex2_(0), texOld_(0), texOld2_(0), matrix_(1.0f) {
 }
 
 

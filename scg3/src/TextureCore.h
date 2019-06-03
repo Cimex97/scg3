@@ -86,7 +86,9 @@ public:
 protected:
 
   GLuint tex_;
+  GLuint tex2_;
   GLint texOld_;
+  GLint texOld2_;
   glm::mat4 matrix_;
 };
 

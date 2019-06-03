@@ -29,6 +29,8 @@
 #include "scg_utilities.h"
 #include "Texture2DCore.h"
 #include "TextureCoreFactory.h"
+#include "SkyboxCore.hpp"
+#include "Core.h"
 
 namespace scg {
 
@@ -163,6 +165,60 @@ CubeMapCoreSP TextureCoreFactory::createCubeMapFromFiles(const std::vector<std::
   return core;
 }
 
+SkyboxCoreSP TextureCoreFactory::createSkyboxFromFiles(const std::vector<std::string>& fileNames1, const std::vector<std::string>& fileNames2){
+        
+        assert(fileNames1.size() == 6);
+        assert(fileNames2.size() == 6);
+    
+    // Fucking wichtig eigene für zweite Texture, selben verwenden führt zu Darstellungsfehlern
+        int width, width2, height, height2, dummy, dummy2;
+    //load RGBA Data from filenames1
+        std::vector<unsigned char*> rgbaData1;
+        std::vector<unsigned char*> rgbaData2;
+    
+        for (int i = 0; i < 6; ++i) {
+            
+            // try to find file
+            std::string fullFileName = getFullFileName(filePaths_, fileNames1[i]);
+            if (fullFileName.empty()) {
+                throw std::runtime_error("Cannot open file" + fileNames1[i]
+                                         + " [TextureCoreFactory::createSkyboxFromFiles()]");
+            }
+            
+            // load image and create array with 4 components (RGBA)
+            rgbaData1.push_back(stbi_load(fullFileName.c_str(), &width, &height, &dummy, 4));
+            if (!rgbaData1.back()) {
+                throw std::runtime_error("stb_image error: " + std::string(stbi_failure_reason())
+                                         + " [TextureCoreFactory::createSkyboxFromFiles()]");
+            }
+            
+            // try to find file2
+            std::string fullFileName2 = getFullFileName(filePaths_, fileNames2[i]);
+            if (fullFileName2.empty()) {
+                throw std::runtime_error("Cannot open file" + fileNames2[i]
+                                         + " [TextureCoreFactory::createSkyboxFromFiles()]");
+            }
+            
+            // load image2 and create array with 4 components (RGBA)
+            rgbaData2.push_back(stbi_load(fullFileName2.c_str(), &width2, &height2, &dummy2, 4));
+            if (!rgbaData2.back()) {
+                throw std::runtime_error("stb_image error: " + std::string(stbi_failure_reason())
+                                         + " [TextureCoreFactory::createSkyboxFromFiles()]");
+            }
+           
+        }
+    
+    // create texture core
+        auto core = SkyboxCore::create();
+        core->setCubeMap(width, height, rgbaData1, width2, height2, rgbaData2);
+        
+        // free image memory and return texture core
+        for (int i = 0; i < 6; ++i) {
+            stbi_image_free(rgbaData1[i]);
+            stbi_image_free(rgbaData2[i]);
+        }
+        return core;
+    }
 
 CubeMapCoreSP TextureCoreFactory::createCubeMapFromFiles(std::vector<std::string>&& fileNames) {
   std::vector<std::string> fileNamesVec = std::move(fileNames);

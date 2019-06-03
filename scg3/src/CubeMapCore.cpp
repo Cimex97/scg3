@@ -39,6 +39,7 @@ CubeMapCore::CubeMapCore()
 CubeMapCore::~CubeMapCore() {
   if (isGLContextActive()) {
     glDeleteTextures(1, &tex_);
+    glDeleteTextures(1, &tex2_);
   }
 }
 

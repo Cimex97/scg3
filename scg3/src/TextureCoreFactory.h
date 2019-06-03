@@ -109,6 +109,15 @@ public:
    *     to be searched for in known file paths
    */
   CubeMapCoreSP createCubeMapFromFiles(const std::vector<std::string>& fileNames);
+    
+    /**
+     * Load texture images from source files and create a Skybox.
+     * \param fileNames1 6 texture file names for directions +x, -x, +y, -y, +z, -z
+     *     to be searched for in known file paths
+     * \param fileNames2 6 texture file names for directions +x, -x, +y, -y, +z, -z
+     *     to be searched for in known file paths
+     */
+    SkyboxCoreSP createSkyboxFromFiles(const std::vector<std::string>& fileNames1, const std::vector<std::string>& fileNames2);
 
   /**
    * Load texture images from source files and create a cube map.
