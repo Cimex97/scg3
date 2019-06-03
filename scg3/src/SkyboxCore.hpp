@@ -1,6 +1,8 @@
 //
 //  SkyboxCore.hpp
 //  uebung4
+//  Erweiterte CubeMapCore Klasse
+//  Skybox benötigt zwei CubeMaps für Tag / Nacht
 //
 //  Created by Sebastian Meyer on 23.05.19.
 //  Copyright © 2019 Sebastian Meyer. All rights reserved.
