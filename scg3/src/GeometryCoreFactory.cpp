@@ -204,7 +204,6 @@ GeometryCoreSP GeometryCoreFactory::createCube(GLfloat size) {
   return createCuboid(glm::vec3(size, size, size));
 }
 
-
 GeometryCoreSP GeometryCoreFactory::createCuboid(glm::vec3 size) {
   // create geometry core
   auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);

@@ -38,6 +38,11 @@ namespace scg {
         return std::make_shared<SkyboxCore>();
     }
     
+    void SkyboxCore::setSunlight(Sunlight* s)
+    {
+        sunlight = s;
+    }
+    
     
     void SkyboxCore::setCubeMap(GLsizei width, GLsizei height, const std::vector<unsigned char*>& rgbaData, GLsizei width2, GLsizei height2, const std::vector<unsigned char*>& rgbaData2) {
         assert(rgbaData.size() == 6);
@@ -137,7 +142,7 @@ namespace scg {
         */
         
         //Day Night Time 24h Sonnen Auf- Untergang
-        float time = fmod(glfwGetTime(), 24);
+        double time = sunlight->getTime();
         
         //Aufgang 7 - 10
         //Untergang 20-23

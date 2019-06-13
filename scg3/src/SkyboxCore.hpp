@@ -13,6 +13,7 @@
 
 #include <vector>
 #include "scg_internals.h"
+#include "Sunlight.h"
 #include "TextureCore.h"
 SCG_DECLARE_CLASS(SkyboxCore);
 
@@ -71,11 +72,12 @@ namespace scg {
          * and bind previous texture.
          */
         virtual void renderPost(RenderState* renderState);
-        
+        void setSunlight(Sunlight* s);
         protected:
         
         float blendFactor;
         bool day;
+        Sunlight* sunlight;
         
     };
     
