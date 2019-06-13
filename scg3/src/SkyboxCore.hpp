@@ -72,13 +72,11 @@ namespace scg {
          * and bind previous texture.
          */
         virtual void renderPost(RenderState* renderState);
-        void setSunlight(Sunlight* s);
         protected:
         
         float blendFactor;
         bool day;
-        Sunlight* sunlight;
-        
+
     };
     
     

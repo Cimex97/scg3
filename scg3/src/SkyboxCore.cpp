@@ -15,6 +15,7 @@
 #include "ShaderCore.h"
 #include <iostream>
 
+extern float gloabal_time_for_cg1_project_with_ahlers;
 namespace scg {
     
     
@@ -37,13 +38,7 @@ namespace scg {
     SkyboxCoreSP SkyboxCore::create() {
         return std::make_shared<SkyboxCore>();
     }
-    
-    void SkyboxCore::setSunlight(Sunlight* s)
-    {
-        sunlight = s;
-    }
-    
-    
+
     void SkyboxCore::setCubeMap(GLsizei width, GLsizei height, const std::vector<unsigned char*>& rgbaData, GLsizei width2, GLsizei height2, const std::vector<unsigned char*>& rgbaData2) {
         assert(rgbaData.size() == 6);
         assert(rgbaData2.size() == 6);
@@ -142,8 +137,8 @@ namespace scg {
         */
         
         //Day Night Time 24h Sonnen Auf- Untergang
-        double time = sunlight->getTime();
-        
+//        float time = fmodf(glfwGetTime(), 24);
+        float time = gloabal_time_for_cg1_project_with_ahlers;
         //Aufgang 7 - 10
         //Untergang 20-23
         if(time > 6 && time < 10){
