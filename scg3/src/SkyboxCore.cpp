@@ -13,6 +13,7 @@
 #include "RenderState.h"
 #include "scg_utilities.h"
 #include "ShaderCore.h"
+#include <iostream>
 
 namespace scg {
     
@@ -105,7 +106,7 @@ namespace scg {
         assert(glIsTexture(tex_));
         glBindTexture(GL_TEXTURE_CUBE_MAP, tex_);
         
-    //Texture2 save texture binding
+    //Texture 1 save texture binding
         glActiveTexture(GL_TEXTURE1);
         glGetIntegerv(GL_TEXTURE_BINDING_CUBE_MAP, &texOld2_);
         // bind texture
@@ -121,7 +122,8 @@ namespace scg {
         renderState->getShader()->setUniformMatrix4fv("skyboxMatrix", 1, glm::value_ptr(skyboxMatrix));
     
         //Day Night Time simple
-        if(blendFactor >= 1){
+        /*
+        if(blendFactor >= 12){
             day = false;
         }else if(blendFactor <= 0){
             day = true;
@@ -132,7 +134,30 @@ namespace scg {
         }else{
             blendFactor-=0.001f;
         }
-        printf("Blendfactor: %f\n",blendFactor);
+        */
+        
+        //Day Night Time 24h Sonnen Auf- Untergang
+        float time = fmod(glfwGetTime(), 24);
+        
+        //Aufgang 7 - 10
+        //Untergang 20-23
+        if(time > 6 && time < 10){
+            if(blendFactor<1){
+             blendFactor+=0.002f;
+            }else{
+                blendFactor=1;
+            }
+        }else if(time > 18 && time < 23){
+            if(blendFactor>0){
+                blendFactor-=0.002f;
+            }else{
+                blendFactor=0;
+            }
+            
+        }
+        
+        std::cout << "Zeit aktuell: " << time << " BlendFactor: " << blendFactor << std::endl;
+        
         renderState->getShader()->setUniform1f("blendFactor",  glm::float32(blendFactor));
         assert(!checkGLError());
         glActiveTexture(GL_TEXTURE0);
