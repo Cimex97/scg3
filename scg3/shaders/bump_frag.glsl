@@ -68,12 +68,17 @@ vec4 applyTexture(const in vec4 texCoord, const in vec4 emissionAmbientDiffuse, 
 
 void main(void) {
 
-
     float bias = 0.005;
+    vec3 projCoords = ShadowCoord.xyz / ShadowCoord.w;
     float visibility = 1.0;
-    if ( texture( ShadowMap, ShadowCoord.st ).x  <  ShadowCoord.z -bias){
-            visibility = 0.5;
+    float closestDepth = texture(ShadowMap, projCoords.xy).r;
+    float currentDepth = projCoords.z;
+
+    visibility = currentDepth - bias < closestDepth ? 1.0 : 0.5;
+    if ( projCoords.z > 1.0) {
+        visibility = 1.0;
     }
+
   // apply lighting model
   vec4 emissionAmbientDiffuse, specular;
   applyLighting(emissionAmbientDiffuse, specular, visibility);

@@ -15,6 +15,7 @@ uniform mat4 colorMatrix;
 uniform mat4 depthMVP;
 uniform sampler2D texture0;
 uniform sampler2D ShadowMap;
+uniform vec3 lightDir;
 
 out vec4 fragColor;
 
@@ -35,9 +36,14 @@ vec4 applyTexture(const in vec4 texCoord, const in vec4 emissionAmbientDiffuse,
 void main(void) {
 
     float bias = 0.005;
+    vec3 projCoords = ShadowCoord.xyz / ShadowCoord.w;
     float visibility = 1.0;
-    if ( texture( ShadowMap, ShadowCoord.st ).x  <  ShadowCoord.z -bias){
-            visibility = 0.5;
+    float closestDepth = texture(ShadowMap, projCoords.xy).r;
+    float currentDepth = projCoords.z;
+
+    visibility = currentDepth - bias < closestDepth ? 1.0 : 0.5;
+    if (ShadowCoord.z > 1.0) {
+       visibility = 1.0;
     }
   // apply lighting model (to be defined in separate shader)
   vec4 emissionAmbientDiffuse, specular;

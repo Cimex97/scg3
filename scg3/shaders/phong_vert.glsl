@@ -3,7 +3,7 @@
  * \brief Phong vertex shader.
  */
 
-#version 150
+#version 330
 
 in vec4 vVertex;
 in vec3 vNormal;

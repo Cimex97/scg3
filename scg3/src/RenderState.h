@@ -210,6 +210,12 @@ public:
   void setShadowMapTextureUnit(const GLint id) {
       shadowMapTextureID = id;
   }
+  void setLightDir(const glm::vec3 dir) {
+      lightDir = dir;
+  }
+  const glm::vec3 getLightDir() {
+      return lightDir;
+  }
 
 
 
@@ -270,6 +276,7 @@ protected:
   glm::mat4 viewTransform_;
   glm::mat4 lightProjection;
   glm::mat4 lightView;
+  glm::vec3 lightDir;
   mutable glm::mat4 tempMatrix_;
   bool isLightingEnabled_;
   GLint nLights_;
