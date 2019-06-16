@@ -35,8 +35,9 @@ vec4 applyTexture(const in vec4 texCoord, const in vec4 emissionAmbientDiffuse,
 
 void main(void) {
 
-    float bias = 0.005;
+    float bias = 0.0005;
     vec3 projCoords = ShadowCoord.xyz / ShadowCoord.w;
+    projCoords = projCoords * 0.5 + 0.5;
     float visibility = 1.0;
     float closestDepth = texture(ShadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;

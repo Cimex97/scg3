@@ -150,9 +150,9 @@ glm::mat4 biasMatrix(
   glm::mat4 cameraView = getViewTransform();
   glm::mat4 cameraProjection = getProjection();
 
-  glm::mat4 depthMVP = biasMatrix * lightProjection * lightView * getModelMatrix();
+  glm::mat4 depthMVP =  lightProjection * lightView * getModelMatrix();
 
-  shaderCore_->setUniformMatrix4fv("BiasDepthMVP",1, glm::value_ptr(depthMVP));
+  shaderCore_->setUniformMatrix4fv("depthMVP",1, glm::value_ptr(depthMVP));
   shaderCore_->setUniform1i("ShadowMap",4);
   shaderCore_->setUniform3fv("lightDir", 1, glm::value_ptr(lightDir));
 

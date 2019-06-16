@@ -14,7 +14,7 @@ uniform mat4 projectionMatrix;
 uniform mat4 mvpMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 textureMatrix;
-uniform mat4 BiasDepthMVP;
+uniform mat4 depthMVP;
 
 smooth out vec3 ecVertex;
 smooth out vec3 ecNormal;
@@ -31,5 +31,5 @@ void main() {
   // set output values
   gl_Position = mvpMatrix * vVertex;
   texCoord0 = textureMatrix * vTexCoord0;
-  ShadowCoord = BiasDepthMVP * vVertex;
+  ShadowCoord = depthMVP * vVertex;
 }
