@@ -121,24 +121,9 @@ namespace scg {
         glm::mat4 skyboxMatrix = renderState->projectionStack.getMatrix() * viewMatrix * renderState->getModelMatrix();
         renderState->getShader()->setUniformMatrix4fv("skyboxMatrix", 1, glm::value_ptr(skyboxMatrix));
     
-        //Day Night Time simple
-        /*
-        if(blendFactor >= 12){
-            day = false;
-        }else if(blendFactor <= 0){
-            day = true;
-        }
-        
-        if(day){
-            blendFactor+=0.001f;
-        }else{
-            blendFactor-=0.001f;
-        }
-        */
-        
         //Day Night Time 24h Sonnen Auf- Untergang
-//        float time = fmodf(glfwGetTime(), 24);
         float time = gloabal_time_for_cg1_project_with_ahlers;
+
         //Aufgang 7 - 10
         //Untergang 20-23
         if(time > 6 && time < 10){
