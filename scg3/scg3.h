@@ -256,6 +256,7 @@
 #include "src/ShaderCore.h"
 #include "src/ShaderCoreFactory.h"
 #include "src/Shape.h"
+#include "src/SkyboxCore.hpp"
 #include "src/StandardRenderer.h"
 #include "src/Texture2DCore.h"
 #include "src/TextureCore.h"
